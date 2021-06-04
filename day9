@@ -1,0 +1,58 @@
+import time
+import collections
+class XMASBreaker:
+    def __init__(self, file=open('input', 'r')):
+        self.intstream = [int(line) for line in file]
+
+
+    def part1(self):
+        five_preamble = collections.deque()
+        for i in range(25):
+            print("Loading into preamble ", self.intstream[i])
+            five_preamble.append(self.intstream[i])
+        for val in self.intstream[25:]:
+            print(five_preamble)
+            if not self.five_check(five_preamble,val):
+                return val
+
+            print('Popping off ', five_preamble.popleft())
+            print('Adding ', val)
+            five_preamble.append(val)
+        return 0
+
+    def part2(self):
+        value = self.part1()
+        cutoff = self.intstream.index(value)
+        val_in_sum = []
+
+        for x in range(len(self.intstream[:cutoff])):
+            val_in_sum.append(self.intstream[x])
+            for y in range(x+1,len(self.intstream[:cutoff])):
+                val_in_sum.append(self.intstream[y])
+                if sum(val_in_sum) == value:
+                    return max(val_in_sum) +min(val_in_sum)
+                elif sum(val_in_sum) > value:
+                    break
+            val_in_sum.clear()
+        return -1
+
+
+
+
+
+    def five_check(self,preamble,next_val):
+        print(f'Checking next val {next_val}')
+        for x in range(len(preamble)):
+            for y in range(x + 1, len(preamble)):
+                sum = preamble[x] + preamble[y]
+                if sum == next_val:
+                    return True
+        return False
+
+
+
+test = XMASBreaker()
+tic = time.perf_counter()
+print("result: ",test.part2())
+toc = time.perf_counter()
+print(f'Time it took to run: {toc-tic:0.4f}')

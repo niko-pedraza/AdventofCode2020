@@ -1,0 +1,44 @@
+
+def findsum2020(valuestream):
+
+
+    for value1 in valuestream:
+        for value2 in valuestream[1:]:
+            if value1+value2 == 2020:
+                return product(value1,value2)
+        valuestream.remove(value1)
+
+
+
+    return -1
+
+def findsum2020_3input(valuestream):
+
+    for value1 in valuestream:
+        for value2 in valuestream[1:]:
+            for value3 in valuestream[2:]:
+                if value1+value2+value3 == 2020:
+                    return product3(value1,value2,value3)
+        valuestream.remove(value1)
+
+    return -1
+
+
+
+
+def product(x,y):
+    return x * y
+
+
+def product3(x,y,z):
+    return x * y * z
+
+
+file = open('input', 'r')
+data = []
+for line in file:
+    data.append(int(line.strip()))
+
+result = findsum2020_3input(data)
+
+print(result)
